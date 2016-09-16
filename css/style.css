@@ -1,0 +1,170 @@
+/* 
+*
+* Colors 
+*
+*/
+/* 
+*
+* Fonts names and size scale
+*/
+@font-face {
+  font-family: 'Humanist521';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../webfonts/2CEF46_0_0.eot');
+  src: url('../webfonts/2CEF46_0_0.eot?#iefix') format('embedded-opentype'), url('../webfonts/2CEF46_0_0.woff2') format('woff2'), url('../webfonts/2CEF46_0_0.woff') format('woff'), url('../webfonts/2CEF46_0_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Humanist521';
+  font-weight: normal;
+  font-style: italic;
+  src: url('../webfonts/2CEF46_1_0.eot');
+  src: url('../webfonts/2CEF46_1_0.eot?#iefix') format('embedded-opentype'), url('../webfonts/2CEF46_1_0.woff2') format('woff2'), url('../webfonts/2CEF46_1_0.woff') format('woff'), url('../webfonts/2CEF46_1_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Humanist521';
+  font-weight: bold;
+  font-style: normal;
+  src: url('../webfonts/2CEF46_2_0.eot');
+  src: url('../webfonts/2CEF46_2_0.eot?#iefix') format('embedded-opentype'), url('../webfonts/2CEF46_2_0.woff2') format('woff2'), url('../webfonts/2CEF46_2_0.woff') format('woff'), url('../webfonts/2CEF46_2_0.ttf') format('truetype');
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 1.414em 0 0.5em;
+  font-weight: inherit;
+  line-height: 1.2;
+}
+h1 {
+  margin-top: 0;
+  font-size: 3.998em;
+}
+h2 {
+  font-size: 2.827em;
+}
+h3 {
+  font-size: 1.999em;
+}
+h4 {
+  font-size: 1.414em;
+}
+small,
+.font_small {
+  font-size: 0.707em;
+}
+p {
+  margin-bottom: 1.3em;
+}
+/* 
+*
+* Grid parameters
+*
+*/
+/*
+*
+* Grid helpers
+*
+*/
+.contour {
+  border: 1px solid Red;
+}
+.column {
+  float: left;
+}
+.size-1of1 {
+  width: 100%;
+}
+.size-1of2 {
+  width: 50%;
+}
+.size-1of3 {
+  width: 30.55555556%;
+  padding: 0 1.38888889%;
+}
+.size-1of4 {
+  width: 25%;
+}
+.size-1of5 {
+  width: 20%;
+}
+.size-1of6 {
+  width: 16.66666667%;
+}
+.size-1of7 {
+  width: 14.28571429%;
+}
+.size-1of8 {
+  width: 12.5%;
+}
+.size-1of9 {
+  width: 11.11111111%;
+}
+.size-1of10 {
+  width: 10%;
+}
+.size-1of11 {
+  width: 9.09090909%;
+}
+.size-1of12 {
+  width: 8.33333333%;
+}
+/*
+*
+* Main styles
+*
+*/
+html {
+  font-size: 18px;
+}
+body {
+  font-family: 'Humanist521', Trebuchet, sans-serif;
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.8);
+  padding: 0 5.55555556%;
+}
+a {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.8);
+}
+a:active {
+  color: #ff0000;
+}
+a:visited {
+  color: rgba(0, 0, 0, 0.6);
+}
+#articles[data-columns]::before {
+  content: '3 .column.size-1of3';
+}
+#grid[data-columns]::before {
+  content: '3 .column.size-1of3';
+}
+#articles ul {
+  padding: 0;
+  margin: 0;
+}
+#articles li {
+  display: block;
+  padding: 0;
+}
+header,
+footer,
+article,
+section {
+  margin: 2em 0;
+  clear: both;
+}
+footer {
+  font-size: 0.707em;
+  height: 4em;
+}
+
+// custom styles
+h1 {
+  font-weight: bold;
+}
+
+#page_wrap {
+  margin: 2em 1em 3em;
+}
