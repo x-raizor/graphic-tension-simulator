@@ -44,6 +44,7 @@ var showTension = true; // field picture
 var showDisplacements = false; // displacemens lines
 var showResultForces = false; // resulrint Forces-arrows
 var showFrame = false;
+var isScaling = true;
 var isFramed = true; // mass-electric constraints on frame boundary
 var isSimulating = true; // animation trigger
 
