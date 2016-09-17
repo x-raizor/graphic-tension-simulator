@@ -43,6 +43,17 @@ function getNearest() {
   return bestCandidate;
 }
 
+function getNearestDistance() {
+  var minDistance = 1.0e32;
+  for (item of objects) {
+    var distance = dist(item[0], item[1], mouseX, mouseY);
+    if (distance < minDistance) {
+      minDistance = distance;
+    }
+  }
+  return minDistance;
+}
+
 
 function calculateDeltaByIndex(i, j, objectsArray) {
   /** (int, int, list) --> (float, float)
