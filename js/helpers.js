@@ -34,25 +34,25 @@ function getNearest() {
   var minDistance = 1.0e32;
   var bestCandidate = -1;
   for (item of objects) {
-    var distance = dist(item[0], item[1], mouseX, mouseY);
-    if (distance < minDistance) {
-      minDistance = distance;
+    var _dist = distance(item[0], item[1], mouseX, mouseY);
+    if (_dist < minDistance) {
+      minDistance = _dist;
       bestCandidate = objects.lastIndexOf(item);
     }
   }
-  return bestCandidate;
+  return [bestCandidate, minDistance];
 }
 
-function getNearestDistance() {
-  var minDistance = 1.0e32;
-  for (item of objects) {
-    var distance = dist(item[0], item[1], mouseX, mouseY);
-    if (distance < minDistance) {
-      minDistance = distance;
-    }
-  }
-  return minDistance;
-}
+// function getNearestDistance() {
+//   var minDistance = 1.0e32;
+//   for (item of objects) {
+//     var _dist = distance(item[0], item[1], mouseX, mouseY);
+//     if (_dist < minDistance) {
+//       minDistance = _dist;
+//     }
+//   }
+//   return minDistance;
+// }
 
 
 function calculateDeltaByIndex(i, j, objectsArray) {

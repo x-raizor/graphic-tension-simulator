@@ -4,7 +4,8 @@
 	<meta charset="UTF-8">
 	<title>On tension in graphic design · Research article and simulator of graphic tension based on electromagnetic field theory</title>
 
-    <script src="js/p5.js" type="text/javascript"></script>
+	<script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="js/p5.min.js" type="text/javascript"></script>
     <script src="js/helpers.js" type="text/javascript"></script>
     <script src="js/interaction.js" type="text/javascript"></script>
     <link rel="stylesheet" href="css/normalize.css">
@@ -20,7 +21,14 @@
 		<section id="simulator">			
 			<div id="sketch-holder">
 				<script src="js/simulation.js" type="text/javascript"></script>
-			</div>	
+			</div>
+			<div id="controls">
+				<button data-state="isSimulating">Симуляция</button>
+				<button data-state="showTension">Напряжённость</button>
+				<button data-state="showDisplacements">Cмещения</button>
+				<button data-state="showFrame">Рамка</button>
+
+			</div>
 		</section>
 
 		<section id="intro">

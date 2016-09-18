@@ -35,7 +35,7 @@ var borderWeight = 30; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 601; // simulation window width
 var h = 306; // height
-var frameAspectRatio = 16/9;
+var frameAspectRatio = 5/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
 var isScaling = false; // buffer for scale object while drug-n-drop
@@ -56,10 +56,43 @@ var delta = new Array();
 function setup() {
 
 	//frameRate(60);
-	// w = windowWidth;
-	// h = windowWidth/frameAspectRatio;
+	w = $('#sketch-holder').width();
+	h = w / frameAspectRatio;
 	var canvas = createCanvas(w, h);
 
+	// setup an interaction inside simulator canvas
+	// canvas.mouseClicked(function() { 
+	// 	var newSize = random(MIN_SIZE, MAX_SIZE);
+	// 	if (getNearestDistance() > newSize) {
+	// 		objects.push([mouseX, mouseY, newSize]);
+	// 	}
+	// 	return false; // prevent default
+	// });
+
+
+	canvas.mousePressed(function() {
+		var sample = getNearest();
+		pickedObjectIndex = sample[0];
+		var minDistance = sample[1];
+		if (pickedObjectIndex < 0) return;
+		var objectSize = objects[pickedObjectIndex][2]/2;
+		if (minDistance < objectSize) return;
+
+		var newSize = random(MIN_SIZE, MAX_SIZE);
+		objects.push([mouseX, mouseY, newSize]);
+		pickedObjectIndex = -1;
+		
+		return false; // prevent default
+	});
+
+
+	canvas.mouseReleased(function() {
+	  pickedObjectIndex = -1;
+	  return false; // prevent default
+	});
+
+
+	// initiate with objects
 	objects.push([GAP, GAP, 30]);
 	objects.push([GAP, height - GAP, 30]);
 	objects.push([width - GAP, height - GAP, 30]);
