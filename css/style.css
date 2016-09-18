@@ -176,20 +176,26 @@ h1 {
 	margin: 2em 1em 3em;
 }
 
+#controls {
+	margin-top: -0.25em;
+}
+
 #controls button {
+	padding: 0;
 	font-size: 0.65em;
 	background-color: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 3px;
+	border: none; //1px solid rgba(0, 0, 0, 0.1);
+	// border-radius: 3px;
 	outline: none;
+	margin: 0 0.2em 0;
 }
 
 #controls button:before {
-	content: '\2022  ';
+	content: '\25a1  ';
 }
 
 #controls button.on:before {
-	content: '   ';
+	content: '\25a0  ';
 }
 
 

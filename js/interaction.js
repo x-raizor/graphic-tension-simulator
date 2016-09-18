@@ -4,7 +4,7 @@
 
 function renderState(obj) {
 	var state = obj.getAttribute('data-state');
-	if (!window[state]) {
+	if (window[state]) {
 		$(obj).addClass("on");
 	} else {
 		$(obj).removeClass("on");

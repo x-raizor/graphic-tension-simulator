@@ -61,15 +61,6 @@ function setup() {
 	var canvas = createCanvas(w, h);
 
 	// setup an interaction inside simulator canvas
-	// canvas.mouseClicked(function() { 
-	// 	var newSize = random(MIN_SIZE, MAX_SIZE);
-	// 	if (getNearestDistance() > newSize) {
-	// 		objects.push([mouseX, mouseY, newSize]);
-	// 	}
-	// 	return false; // prevent default
-	// });
-
-
 	canvas.mousePressed(function() {
 		var sample = getNearest();
 		pickedObjectIndex = sample[0];
@@ -81,10 +72,9 @@ function setup() {
 		var newSize = random(MIN_SIZE, MAX_SIZE);
 		objects.push([mouseX, mouseY, newSize]);
 		pickedObjectIndex = -1;
-		
+
 		return false; // prevent default
 	});
-
 
 	canvas.mouseReleased(function() {
 	  pickedObjectIndex = -1;
@@ -216,13 +206,14 @@ function draw() {
 	  }
 	}
 
-	noFill();
-	strokeWeight(1);
-	stroke(255, 0, 0);
-	var diametr = 0.25 * MAX_SIZE * Math.sin(frameCount/10) + 0.5 * MAX_SIZE;
-	//ellipse(mouseX, mouseY, diametr, diametr);
-	var crossSize = diametr / 4;
-	line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
-	line(mouseX, mouseY  - crossSize, mouseX, mouseY + crossSize);
+	// Cursor
+	// noFill();
+	// strokeWeight(1);
+	// stroke(255, 0, 0);
+	// var diametr = 0.25 * MAX_SIZE * Math.sin(frameCount/10) + 0.5 * MAX_SIZE;
+	// //ellipse(mouseX, mouseY, diametr, diametr);
+	// var crossSize = diametr / 4;
+	// line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
+	// line(mouseX, mouseY  - crossSize, mouseX, mouseY + crossSize);
   	
 }
