@@ -31,7 +31,7 @@ var TENSION_FIELD_STEP = 10;
 // frame particles characteristics
 var cornerWeight = 0;  // weights in corners
 var borderStep = 20;   // distance between frame particles
-var borderWeight = 30; //w * h / ((w + h)/borderStep); // weights on frame
+var borderWeight = 50; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 601; // simulation window width
 var h = 306; // height
@@ -41,8 +41,8 @@ var pickedObjectIndex = -1; // buffer for clicked object index
 //var scaleSign = 0; // buffer of sign for scaling
 var isScaling = false; // buffer for scale object while drug-n-drop
 
-var showTension = true; // field picture
-var showDisplacements = false; // displacemens lines
+var showTension = false; // field picture
+var showDisplacements = true; // displacemens lines
 var showResultForces = false; // resulrint Forces-arrows
 var showFrame = false;
 var isFramed = true; // mass-electric constraints on frame boundary
@@ -53,6 +53,7 @@ var obstacles =  new Array();
 var objects_all =  new Array();
 var delta = new Array();
 
+//p5.disableFriendlyErrors = true;
 
 function setup() {
 
@@ -117,15 +118,23 @@ function setup() {
 
 
 function draw() {
-	
+
 	background(240);
+
+	var fps = frameRate();
+	fill(0);
+	stroke(255);
+	text('FPS: ' + fps.toFixed(0), 10, height - 10);
+
 	stroke(0, 0, 255);
 	strokeWeight(0.25);
+
 
 	var realObjectsNumber = objects.length;
 	objects_all = objects.concat(obstacles);  // concatinate
 
 	// calculate accumulative displacements
+	// TODO: optimize. no need to calulate it when simulation is stopped
 	var delta = new Array() // float[realObjectsNumber][2]; // [[0, 0]] * real_objects;
 	for (var i = 0; i < realObjectsNumber; i++) delta.push([0, 0]);
 
@@ -143,7 +152,8 @@ function draw() {
 		    	var x2 = x1 + _delta[0] * FORCE_SCALE;
 		    	var y1 = objects[i][1];
 		    	var y2 = y1 + _delta[1] * FORCE_SCALE;
-		    	line(x1, y1, x2, y2);
+		    	drawArrow(x1, y1, x2, y2, 0.5, 2, false);
+		    	//line(x1, y1, x2, y2);
 	    	}
 		}
 	}
@@ -161,7 +171,6 @@ function draw() {
 			     	var _x = objects_all[k][0];
 			     	var _y = objects_all[k][1];
 			     	var squareMass = area(objects_all[k][2]);
-			     	//if (squareMass > dist(x, y, _x, _y)) continue;
 			     	var __delta = calculateDelta(x, y, _x, _y, squareMass);
 			     	_delta[0] += __delta[0] * FIELD_SCALE; 
 			     	_delta[1] += __delta[1] * FIELD_SCALE;

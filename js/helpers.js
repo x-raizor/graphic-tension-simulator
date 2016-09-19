@@ -90,3 +90,61 @@ function correctShift(displacement) {
   //if (displacement > height / 5) return displacement / CAPACITANCE / 1.0;
   return displacement;
 }
+
+
+function drawArrow(x0, y0, x1, y1, beginHeadSize, endHeadSize, filled) {
+  
+  /** by Gael Beaunée on January 10, 2014
+    * http://gaelbn.com/draw-arrows-in-processing/
+    */
+
+  var d = new p5.Vector(x1 - x0, y1 - y0);
+  d.normalize();
+
+  var coeff = 3;
+
+  strokeCap(SQUARE);
+
+  line(x0 + d.x * beginHeadSize * coeff / (filled ? 1.0 : 1.75), 
+    y0 + d.y * beginHeadSize * coeff / (filled?1.0 : 1.75 ), 
+    x1 - d.x * endHeadSize * coeff / (filled ? 1.0 : 1.75), 
+    y1 - d.y * endHeadSize * coeff / (filled ? 1.0 : 1.75));
+
+  var angle = atan2(d.y, d.x);
+
+  if (filled) {
+    // begin head
+    push();
+    translate(x0, y0);
+    rotate(angle+PI);
+    triangle(-beginHeadSize*coeff, -beginHeadSize, 
+              -beginHeadSize*coeff, beginHeadSize, 0, 0);
+    pop();
+    // end head
+    push();
+    translate(x1, y1);
+    rotate(angle);
+    triangle(-endHeadSize*coeff, -endHeadSize, 
+      -endHeadSize*coeff, endHeadSize, 
+      0, 0);
+    pop();
+  } else {
+    // begin head
+    push();
+    translate(x0, y0);
+    rotate(angle+PI);
+    strokeCap(ROUND);
+    line(-beginHeadSize*coeff, -beginHeadSize, 0, 0);
+    line(-beginHeadSize*coeff, beginHeadSize, 0, 0);
+    pop();
+    // end head
+    push();
+    translate(x1, y1);
+    rotate(angle);
+    strokeCap(ROUND);
+    line(-endHeadSize*coeff, -endHeadSize, 0, 0);
+    line(-endHeadSize*coeff, endHeadSize, 0, 0);
+    pop();
+  }
+}
+
