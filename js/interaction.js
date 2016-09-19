@@ -16,6 +16,8 @@ function renderState(obj) {
 		renderState(el);
 	});
 
+	$('#btnClear').click(clearScene);
+
 	$('button').click(function(){
 		var state = this.getAttribute('data-state');
 		window[state] = !window[state];  //isSimulating = !isSimulating;
@@ -50,13 +52,17 @@ function mouseDragged() {
 }
 
 
+function clearScene() {
+	objects =  new Array();
+	objects_all =  objects.concat(obstacles);
+}
+
 function keyPressed() {
 
 	if (key == ' ') {
 		isSimulating = !isSimulating;
 	} else if (keyCode == 'c') {
-		objects =  new Array();
-		objects_all =  new Array().concat(obstacles);
+		clearScene();	
 	}
 
 	switch (keyCode) {

@@ -158,7 +158,6 @@ section {
 footer {
 	border-top: 1px solid rgba(0,0,0, 0.2);
 	padding-top: 0.5em;
-	//font-size: 0.707em;
 	height: 2em;
 }
 
@@ -173,7 +172,9 @@ h1 {
 }
 
 #page_wrap {
-	margin: 2em 1em 3em;
+	max-width: 960px;
+	min-width: 320px;
+	margin: 0 auto;
 }
 
 #controls {
@@ -184,8 +185,7 @@ h1 {
 	padding: 0;
 	font-size: 0.65em;
 	background-color: #ffffff;
-	border: none; //1px solid rgba(0, 0, 0, 0.1);
-	// border-radius: 3px;
+	border: none;
 	outline: none;
 	margin: 0 0.2em 0;
 }
@@ -198,7 +198,33 @@ h1 {
 	content: '\25a0  ';
 }
 
+#controls button.tabbed {
+	margin-left: 2em;
+}
+#controls button.btn:before {
+	content: none;
+}
 
+#btnClear {
+	margin: 0.25em 0 0;
+	float: right;
+}
+
+#controls button.btn {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	padding: 0.05em 1em; 
+}
+
+button.btn:hover {
+	color: red;
+}
+button.btn:active {
+	transform: ;
+	-ms-transform: translate(0, 1px); /* IE 9 */
+    -webkit-transform: translate(0, 1px)); /* Safari */
+    transform: translate(0, 1px));
+}
 .on {
 	background-color: #a0a0a0;
 	border: 1px solid rgba(0, 0, 255, 0.4);

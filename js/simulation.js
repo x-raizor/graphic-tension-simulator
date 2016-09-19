@@ -20,8 +20,8 @@
  */
 
 var GAP = 80; // margin for initial points
-var MIN_SIZE = 10; // object minimum size
-var MAX_SIZE = 100; // object maximum size
+var MIN_SIZE = 40; // object minimum size
+var MAX_SIZE = 40; // object maximum size
 var CAPACITANCE = 15; // electrical charge capacity, 'electro viscocity'
 var DRAG_AMOUNT = 1; //  scale factor of dragging for mass scale 
 var FORCE_SCALE = 130; // forces lines multiplicator
@@ -64,12 +64,14 @@ function setup() {
 
 	// setup an interaction inside simulator canvas
 	canvas.mousePressed(function() {
-		var sample = getNearest();
-		pickedObjectIndex = sample[0];
-		var minDistance = sample[1];
-		if (pickedObjectIndex < 0) return;
-		var objectSize = objects[pickedObjectIndex][2]/2;
-		if (minDistance < objectSize) return;
+		if (objects.length != 0) {
+			var sample = getNearest();
+			pickedObjectIndex = sample[0];
+			var minDistance = sample[1];
+			if (pickedObjectIndex < 0) return;
+			var objectSize = objects[pickedObjectIndex][2]/2;
+			if (minDistance < objectSize) return;
+		}
 
 		var newSize = random(MIN_SIZE, MAX_SIZE);
 		objects.push([mouseX, mouseY, newSize]);
@@ -79,9 +81,9 @@ function setup() {
 	});
 
 	canvas.mouseReleased(function() {
-	  pickedObjectIndex = -1;
-	  scaleSign = 0;
-	  return false; // prevent default
+		pickedObjectIndex = -1;
+		scaleSign = 0;
+		return false; // prevent default
 	});
 
 
@@ -217,14 +219,15 @@ function draw() {
 	  }
 	}
 
-	// Cursor
-	// noFill();
-	// strokeWeight(1);
-	// stroke(255, 0, 0);
-	// var diametr = 0.25 * MAX_SIZE * Math.sin(frameCount/10) + 0.5 * MAX_SIZE;
-	// //ellipse(mouseX, mouseY, diametr, diametr);
-	// var crossSize = diametr / 4;
-	// line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
-	// line(mouseX, mouseY  - crossSize, mouseX, mouseY + crossSize);
+	//Cursor
+	noFill();
+	strokeWeight(1);
+	stroke(255, 0, 0);
+	//ellipse(mouseX, mouseY, diametr, diametr);
+	//var diametr = 0.25 * MAX_SIZE * Math.sin(frameCount/10) + 0.5 * MAX_SIZE;
+	
+	var crossSize = 10;
+	line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
+	line(mouseX, mouseY  - crossSize, mouseX, mouseY + crossSize);
   	
 }
