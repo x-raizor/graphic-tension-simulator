@@ -19,19 +19,19 @@
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-var GAP = 80; // margin for initial points
+var GAP = 40; // margin for initial points
 var MIN_SIZE = 40; // object minimum size
 var MAX_SIZE = 40; // object maximum size
 var CAPACITANCE = 15; // electrical charge capacity, 'electro viscocity'
 var DRAG_AMOUNT = 1; //  scale factor of dragging for mass scale 
 var FORCE_SCALE = 130; // forces lines multiplicator
-var FIELD_SCALE = 5; // tension field lines multiplicator
-var TENSION_FIELD_STEP = 10;
+var FIELD_SCALE = 20; // tension field lines multiplicator
+var TENSION_FIELD_STEP = 15;
 
 // frame particles characteristics
 var cornerWeight = 0;  // weights in corners
-var borderStep = 20;   // distance between frame particles
-var borderWeight = 50; //w * h / ((w + h)/borderStep); // weights on frame
+var borderStep = 30;   // distance between frame particles
+var borderWeight = 60; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 601; // simulation window width
 var h = 306; // height
@@ -41,8 +41,8 @@ var pickedObjectIndex = -1; // buffer for clicked object index
 //var scaleSign = 0; // buffer of sign for scaling
 var isScaling = false; // buffer for scale object while drug-n-drop
 
-var showTension = false; // field picture
-var showDisplacements = true; // displacemens lines
+var showTension = true; // field picture
+var showDisplacements = false; // displacemens lines
 var showResultForces = false; // resulrint Forces-arrows
 var showFrame = false;
 var isFramed = true; // mass-electric constraints on frame boundary
@@ -65,7 +65,7 @@ function setup() {
 	// setup an interaction inside simulator canvas
 	canvas.mousePressed(function() {
 		if (objects.length != 0) {
-			var sample = getNearest();
+			var sample = getNearest(mouseX, mouseY);
 			pickedObjectIndex = sample[0];
 			var minDistance = sample[1];
 			if (pickedObjectIndex < 0) return;
@@ -163,8 +163,7 @@ function draw() {
 	// Draw tension field
 	if (showTension) {
 
-		stroke(0, 0, 0);
-		strokeWeight(0.1);
+		strokeWeight(1.5);
 
 	 	for (var x = 0; x < width; x += TENSION_FIELD_STEP) {
 	    	for (var y = 0; y < height; y += TENSION_FIELD_STEP) {
@@ -174,10 +173,24 @@ function draw() {
 			     	var _y = objects_all[k][1];
 			     	var squareMass = area(objects_all[k][2]);
 			     	var __delta = calculateDelta(x, y, _x, _y, squareMass);
-			     	_delta[0] += __delta[0] * FIELD_SCALE; 
-			     	_delta[1] += __delta[1] * FIELD_SCALE;
+			     	_delta[0] += __delta[0]; 
+			     	_delta[1] += __delta[1];
 	    		}
-	      		line(x, y, x + _delta[0], y + _delta[1]);
+	    		var vec = createVector(_delta[0], _delta[1]);
+	    		var closeObject = getNearest(x, y);
+	    		var objIndex = closeObject[0];
+	    		var magnitude = 1;
+	    		if (objIndex > -1) {
+	    			var closeCharge = objects[objIndex][2];
+	    			magnitude = 1/closeCharge;
+	    		}
+	    		vec.mult(magnitude);
+	    		var vecLength = vec.mag();
+	    		var thinkness = map(vecLength, 0, 100, 30, 255);
+	    		stroke(0, thinkness);
+  				vec.normalize();
+	      		line(x, y, x + FIELD_SCALE * vec.x, y + FIELD_SCALE * vec.y);
+	      		
 	    	}
 		}
 	}
@@ -186,9 +199,8 @@ function draw() {
 	// Simulate and Draw objects
 	for (var i = 0; i < realObjectsNumber; i++) {
 
-		if (isSimulating) {
-			// simulate: add displacements to coords
-			objects[i][0] += correctShift(delta[i][0]);
+		if (isSimulating) { 
+			objects[i][0] += correctShift(delta[i][0]); // simulate: add displacements to coords
 			objects[i][1] += correctShift(delta[i][1]);
 		}
 
@@ -206,7 +218,6 @@ function draw() {
 
 			stroke(255, 0, 0, 100);
 			fill(255, 0, 0, 100);
-			//drawArrow(x1, y1, x2, y2, 0, 3, true);
 			line(x1, y1, x2, y2);
 		}
 	}
@@ -223,9 +234,6 @@ function draw() {
 	noFill();
 	strokeWeight(1);
 	stroke(255, 0, 0);
-	//ellipse(mouseX, mouseY, diametr, diametr);
-	//var diametr = 0.25 * MAX_SIZE * Math.sin(frameCount/10) + 0.5 * MAX_SIZE;
-	
 	var crossSize = 10;
 	line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
 	line(mouseX, mouseY  - crossSize, mouseX, mouseY + crossSize);

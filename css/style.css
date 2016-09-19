@@ -220,7 +220,6 @@ button.btn:hover {
 	color: red;
 }
 button.btn:active {
-	transform: ;
 	-ms-transform: translate(0, 1px); /* IE 9 */
     -webkit-transform: translate(0, 1px)); /* Safari */
     transform: translate(0, 1px));
