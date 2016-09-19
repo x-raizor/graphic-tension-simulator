@@ -28,8 +28,9 @@ function mouseDragged() {
 	if (pickedObjectIndex < 0) return;
 	if (isScaling) {  
 		// SCALE
+		//if (scaleSign == 0) scaleSign = sign(pickedObjectIndex);
 		var amount = DRAG_AMOUNT * // scale factor 
-			sign() * // direction
+			sign(pickedObjectIndex) * // direction
 			dist(pmouseX, pmouseY, mouseX, mouseY);
 		// adjust size then dragg
 		var newSize = max(MIN_SIZE, objects[pickedObjectIndex][2] + amount);

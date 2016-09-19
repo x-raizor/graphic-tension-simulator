@@ -23,7 +23,7 @@ var GAP = 80; // margin for initial points
 var MIN_SIZE = 10; // object minimum size
 var MAX_SIZE = 100; // object maximum size
 var CAPACITANCE = 15; // electrical charge capacity, 'electro viscocity'
-var DRAG_AMOUNT = 0.5; //  scale factor of dragging for mass scale 
+var DRAG_AMOUNT = 1; //  scale factor of dragging for mass scale 
 var FORCE_SCALE = 130; // forces lines multiplicator
 var FIELD_SCALE = 5; // tension field lines multiplicator
 var TENSION_FIELD_STEP = 10;
@@ -38,6 +38,7 @@ var h = 306; // height
 var frameAspectRatio = 5/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
+//var scaleSign = 0; // buffer of sign for scaling
 var isScaling = false; // buffer for scale object while drug-n-drop
 
 var showTension = true; // field picture
@@ -78,6 +79,7 @@ function setup() {
 
 	canvas.mouseReleased(function() {
 	  pickedObjectIndex = -1;
+	  scaleSign = 0;
 	  return false; // prevent default
 	});
 

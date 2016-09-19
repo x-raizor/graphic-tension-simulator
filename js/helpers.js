@@ -15,18 +15,27 @@ function area(size) {
 }
 
 
-function sign() {
+function sign(pickedObjectIndex) {
   var x;
-  if (abs(mouseX - pmouseX) > abs(mouseY - pmouseY)) {
-    x = mouseX - pmouseX;
-  } else {
-    x = mouseY - pmouseY;
-  }
-  if (x > 0)
-    return 1;
-  else if (x < 0) 
-    return -1;
-  return 0;
+  var _x = objects[pickedObjectIndex][0];
+  var _y = objects[pickedObjectIndex][1];
+
+  var newDist = distance(mouseX, mouseY, _x, _y);
+  var oldDist = distance(pmouseX, pmouseY, _x, _y);
+
+  if (newDist > oldDist) return 1;
+  return -1;
+  
+  // if (abs(mouseX - pmouseX) > abs(mouseY - pmouseY)) {
+  //   x = mouseX - pmouseX;
+  // } else {
+  //   x = mouseY - pmouseY;
+  // }
+  // if (x > 0)
+  //   return 1;
+  // else if (x < 0) 
+  //   return -1;
+  // return 0;
 }
 
 
@@ -42,17 +51,6 @@ function getNearest() {
   }
   return [bestCandidate, minDistance];
 }
-
-// function getNearestDistance() {
-//   var minDistance = 1.0e32;
-//   for (item of objects) {
-//     var _dist = distance(item[0], item[1], mouseX, mouseY);
-//     if (_dist < minDistance) {
-//       minDistance = _dist;
-//     }
-//   }
-//   return minDistance;
-// }
 
 
 function calculateDeltaByIndex(i, j, objectsArray) {
