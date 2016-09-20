@@ -47,6 +47,7 @@ function mouseDragged() {
 		// MOVE
 		objects[pickedObjectIndex][0] += mouseX - pmouseX;
 		objects[pickedObjectIndex][1] += mouseY - pmouseY;
+		isMoving = true;
 	}
 	return false; // prevent default
 }
@@ -86,6 +87,10 @@ function keyPressed() {
 		case SHIFT:
 		isScaling = true;
 		break;
+
+		case ALT:
+		isDeleting = true;
+		break;
 	}
 	return false; // prevent default
 }
@@ -112,6 +117,10 @@ function keyReleased() {
 
 		case SHIFT:
 		isScaling = false;
+		break;
+
+		case ALT:
+		isDeleting = false;
 		break;
 	}
 	return false; // prevent default

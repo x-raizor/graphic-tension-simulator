@@ -39,7 +39,9 @@ var frameAspectRatio = 5/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
 //var scaleSign = 0; // buffer of sign for scaling
-var isScaling = false; // buffer for scale object while drug-n-drop
+var isScaling = false; // flag of object scaling while drug-n-drop
+var isDeleting = false; // flag of object deleting
+var isMoving = false; // flag of object moving
 
 var showTension = true; // field picture
 var showDisplacements = false; // displacemens lines
@@ -69,6 +71,11 @@ function setup() {
 			pickedObjectIndex = sample[0];
 			var minDistance = sample[1];
 			if (pickedObjectIndex < 0) return;
+			if (isDeleting) {
+				objects.splice(pickedObjectIndex, 1);
+				objects_all.splice(pickedObjectIndex, 1);
+				return;
+			}
 			var objectSize = objects[pickedObjectIndex][2]/2;
 			if (minDistance < objectSize) return;
 		}
@@ -83,6 +90,7 @@ function setup() {
 	canvas.mouseReleased(function() {
 		pickedObjectIndex = -1;
 		scaleSign = 0;
+		isMoving = false;
 		return false; // prevent default
 	});
 
@@ -205,7 +213,7 @@ function draw() {
 		}
 
 		// draw objects
-		fill(0, 255);
+		fill(0, 30);
 		noStroke();
 		if (i == pickedObjectIndex) fill(255, 0, 0);
 		ellipse(objects[i][0], objects[i][1], objects[i][2], objects[i][2]);
@@ -230,12 +238,19 @@ function draw() {
 	  }
 	}
 
-	//Cursor
-	noFill();
-	strokeWeight(1);
-	stroke(255, 0, 0);
-	var crossSize = 10;
-	line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
-	line(mouseX, mouseY  - crossSize, mouseX, mouseY + crossSize);
+	//Cursors	
+	fill(0);
+	noStroke();
+	if (isDeleting) {
+		cursor(ARROW);
+		text("delete", mouseX + 12, mouseY + 10);
+	} else if (isScaling) {
+		cursor(ARROW);
+		text("zoom", mouseX + 12, mouseY + 10);
+	} else if (isMoving) {
+		cursor(MOVE)
+	} else {
+		cursor(CROSS); // cursor(HAND)
+	}
   	
 }
