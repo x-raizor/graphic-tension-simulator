@@ -27,11 +27,11 @@
 				<script src="js/simulation.js" type="text/javascript"></script>
 			</div>
 			<div id="controls">
-				<input type="checkbox" class="ios-switch green tinyswitch" checked />
-				<button data-state="isSimulating">Симуляция</button>
-				<button data-state="showTension">Напряжённость</button>
-				<button data-state="showDisplacements">Cмещения</button>
-				<button data-state="showFrame">Рамка</button>
+				<label><input data-state="isSimulating" type="checkbox" class="ios-switch green tinyswitch BtnControls" checked /><div><div></div></div></label>
+				<!-- <button data-state="isSimulating">Симуляция</button> -->
+				<button class="BtnControls" data-state="showTension">Напряжённость</button>
+				<button class="BtnControls" data-state="showDisplacements">Cмещения</button>
+				<button class="BtnControls" data-state="showFrame">Рамка</button>
 				<button class="btn" id="btnClear">Очистить макет</button>
 
 			</div>

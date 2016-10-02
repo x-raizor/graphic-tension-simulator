@@ -1,7 +1,32 @@
 /**
  * INTERACTIONS
  */
- function drawCursor() {
+
+ $(function(){ // onLoad
+ 	$('.BtnControls').each( function(i, el) {
+		renderState(el);
+	});
+
+	$('#btnClear').click(clearScene);
+
+	$('.BtnControls').click(function(){
+		var state = this.getAttribute('data-state');
+		window[state] = !window[state];  //isSimulating = !isSimulating;
+		renderState(this);
+	});
+});
+
+
+function renderState(obj) {
+	var state = obj.getAttribute('data-state');
+	if (window[state]) {
+		$(obj).addClass("on");
+	} else {
+		$(obj).removeClass("on");
+	}
+}
+
+function drawCursor() {
  	fill(0);
 	noStroke();
 	if (isDeleting) {
@@ -16,30 +41,6 @@
 		cursor(CROSS); // cursor(HAND)
 	}
  }
-
-function renderState(obj) {
-	var state = obj.getAttribute('data-state');
-	if (window[state]) {
-		$(obj).addClass("on");
-	} else {
-		$(obj).removeClass("on");
-	}
-}
-
- $(function(){
- 	$('button').each( function(i, el) {
-		renderState(el);
-	});
-
-	$('#btnClear').click(clearScene);
-
-	$('button').click(function(){
-		var state = this.getAttribute('data-state');
-		window[state] = !window[state];  //isSimulating = !isSimulating;
-		renderState(this);
-	});
-});
-
 
 function mouseDragged() {
 	if (pickedObjectIndex < 0) return;
@@ -76,7 +77,7 @@ function clearScene() {
 function keyPressed() {
 
 	if (key == ' ') {
-		isSimulating = !isSimulating;
+		$('input.BtnControls').trigger('click');
 	} else if (keyCode == 'c') {
 		clearScene();	
 	}

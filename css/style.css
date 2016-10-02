@@ -229,6 +229,12 @@ button.btn:active {
 	border: 1px solid rgba(0, 0, 255, 0.4);
 }
 
+h1 span {
+	display: block;
+	font-size: 0.3em;
+	margin: -0.5em 0 0 0;
+}
+
 /* от Игоря */
 
 section {
@@ -276,12 +282,16 @@ input[type="checkbox"].ios-switch:checked + div {
 
 /* Tiny Track */
 input[type="checkbox"].tinyswitch.ios-switch + div {
-	width: 34px;	height: 18px;
+	width: 34px;
+	height: 18px;
+	margin: 0.25em 1em 0 0;
+	float: left;
 }
 
 /* Big Track */
 input[type="checkbox"].bigswitch.ios-switch + div {
-	width: 50px;	height: 25px;
+	width: 50px;
+	height: 25px;
 }
 
 /* Green Track */

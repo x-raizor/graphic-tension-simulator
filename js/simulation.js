@@ -38,7 +38,6 @@ var h = 306; // height
 var frameAspectRatio = 5/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
-//var scaleSign = 0; // buffer of sign for scaling
 var adaptiveTensionFieldStep = TENSION_FIELD_STEP;
 var adaptiveTensionFieldDirection = 1;
 var isTensionFieldAdaptive = true; 
