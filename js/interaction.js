@@ -1,6 +1,21 @@
 /**
  * INTERACTIONS
  */
+ function drawCursor() {
+ 	fill(0);
+	noStroke();
+	if (isDeleting) {
+		cursor(ARROW);
+		text("delete", mouseX + 12, mouseY + 10);
+	} else if (isScaling) {
+		cursor(ARROW);
+		text("zoom", mouseX + 12, mouseY + 10);
+	} else if (isMoving) {
+		cursor(MOVE)
+	} else {
+		cursor(CROSS); // cursor(HAND)
+	}
+ }
 
 function renderState(obj) {
 	var state = obj.getAttribute('data-state');

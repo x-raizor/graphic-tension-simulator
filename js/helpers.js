@@ -39,11 +39,11 @@ function sign(pickedObjectIndex) {
 }
 
 
-function getNearest() {
+function getNearest(x, y) {
   var minDistance = 1.0e32;
   var bestCandidate = -1;
   for (item of objects) {
-    var _dist = distance(item[0], item[1], mouseX, mouseY);
+    var _dist = distance(item[0], item[1], x, y);
     if (_dist < minDistance) {
       minDistance = _dist;
       bestCandidate = objects.lastIndexOf(item);
@@ -89,6 +89,14 @@ function calculateDelta(x1, y1, x2, y2, s2) {
 function correctShift(displacement) {
   //if (displacement > height / 5) return displacement / CAPACITANCE / 1.0;
   return displacement;
+}
+
+
+function drawFPS() {
+  var fps = frameRate();
+  fill(0);
+  stroke(255);
+  text('FPS: ' + fps.toFixed(0), 10, height - 10);
 }
 
 

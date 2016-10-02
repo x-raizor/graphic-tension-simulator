@@ -39,6 +39,9 @@ var frameAspectRatio = 5/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
 //var scaleSign = 0; // buffer of sign for scaling
+var adaptiveTensionFieldStep = TENSION_FIELD_STEP;
+var adaptiveTensionFieldDirection = 1;
+var isTensionFieldAdaptive = true; 
 var isScaling = false; // flag of object scaling while drug-n-drop
 var isDeleting = false; // flag of object deleting
 var isMoving = false; // flag of object moving
@@ -129,52 +132,35 @@ function setup() {
 
 function draw() {
 
-	background(240);
-
-	var fps = frameRate();
-	fill(0);
-	stroke(255);
-	text('FPS: ' + fps.toFixed(0), 10, height - 10);
-
-	stroke(0, 0, 255);
-	strokeWeight(0.25);
-
+	background(240);  // clear canvas with color
 
 	var realObjectsNumber = objects.length;
 	objects_all = objects.concat(obstacles);  // concatinate
 
 	// calculate accumulative displacements
-	// TODO: optimize. no need to calulate it when simulation is stopped
-	var delta = new Array() // float[realObjectsNumber][2]; // [[0, 0]] * real_objects;
-	for (var i = 0; i < realObjectsNumber; i++) delta.push([0, 0]);
-
-	for (var i = 0; i < realObjectsNumber; i++) {
-		for (var j = 0; j < objects_all.length; j++) {
-		    if (i == j) continue;
-		    var _delta = calculateDeltaByIndex(j, i, objects_all);
-		    //delta[i] = [];
-		    delta[i][0] += _delta[0];
-		    delta[i][1] += _delta[1];
-		    //console.log(_delta, i, j);
-		    
-		    if (showDisplacements) {
-		    	var x1 = objects[i][0];
-		    	var x2 = x1 + _delta[0] * FORCE_SCALE;
-		    	var y1 = objects[i][1];
-		    	var y2 = y1 + _delta[1] * FORCE_SCALE;
-		    	drawArrow(x1, y1, x2, y2, 0.5, 2, false);
-		    	//line(x1, y1, x2, y2);
-	    	}
-		}
-	}
+	var delta = calculateDisplacements(objects_all);
 
 	// Draw tension field
 	if (showTension) {
 
 		strokeWeight(1.5);
 
-	 	for (var x = 0; x < width; x += TENSION_FIELD_STEP) {
-	    	for (var y = 0; y < height; y += TENSION_FIELD_STEP) {
+		if (isTensionFieldAdaptive) {
+			if (frameRate() < 30) {
+				if (adaptiveTensionFieldDirection > 0) {
+					adaptiveTensionFieldStep *= 1.05;
+					adaptiveTensionFieldDirection = 1;
+				}
+			} else if (frameRate() > 60) {
+				if (adaptiveTensionFieldDirection < 0) {
+					adaptiveTensionFieldStep *= 0.95;
+					adaptiveTensionFieldDirection = -1;
+				}
+			}
+		}
+
+	 	for (var x = 0; x < width; x += adaptiveTensionFieldStep) {
+	    	for (var y = 0; y < height; y += adaptiveTensionFieldStep) {
 	     		var _delta = [0, 0];
 	    		for (var k = 0; k < objects_all.length; k++) {
 			     	var _x = objects_all[k][0];
@@ -230,6 +216,43 @@ function draw() {
 		}
 	}
 
+	drawFrame();
+	drawCursor();
+	drawFPS();
+
+}
+
+function calculateDisplacements(objectsArray) {
+	// TODO: optimize. no need to calulate it when simulation is stopped
+	var delta = new Array() // float[realObjectsNumber][2]; // [[0, 0]] * real_objects;
+	var realObjectsNumber = objects.length;
+	
+	stroke(0, 0, 255);
+	strokeWeight(0.25);
+
+	for (var i = 0; i < realObjectsNumber; i++) {
+		delta.push([0, 0]);
+	}
+	for (var i = 0; i < realObjectsNumber; i++) {
+		for (var j = 0; j < objectsArray.length; j++) {
+		    if (i == j) continue;
+		    var _delta = calculateDeltaByIndex(j, i, objectsArray);
+		    delta[i][0] += _delta[0];
+		    delta[i][1] += _delta[1];
+		    
+		    if (showDisplacements) {
+		    	var x1 = objects[i][0];
+		    	var x2 = x1 + _delta[0] * FORCE_SCALE;
+		    	var y1 = objects[i][1];
+		    	var y2 = y1 + _delta[1] * FORCE_SCALE;
+		    	drawArrow(x1, y1, x2, y2, 0.5, 2, false);
+	    	}
+		}
+	}
+	return delta;
+}
+
+function drawFrame() {
 	if (showFrame) {
 	  for (item of obstacles) {
 	    var halfSize = item[2]/2;
@@ -237,20 +260,4 @@ function draw() {
 	    ellipse(item[0], item[1], size, size);
 	  }
 	}
-
-	//Cursors	
-	fill(0);
-	noStroke();
-	if (isDeleting) {
-		cursor(ARROW);
-		text("delete", mouseX + 12, mouseY + 10);
-	} else if (isScaling) {
-		cursor(ARROW);
-		text("zoom", mouseX + 12, mouseY + 10);
-	} else if (isMoving) {
-		cursor(MOVE)
-	} else {
-		cursor(CROSS); // cursor(HAND)
-	}
-  	
 }
