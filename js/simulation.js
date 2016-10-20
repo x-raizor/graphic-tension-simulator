@@ -40,17 +40,19 @@ var frameAspectRatio = 3/2;
 var pickedObjectIndex = -1; // buffer for clicked object index
 var adaptiveTensionFieldStep = TENSION_FIELD_STEP;
 var adaptiveTensionFieldDirection = 1;
-var isTensionFieldAdaptive = true; 
+var isTensionFieldAdaptive = false; 
 var isScaling = false; // flag of object scaling while drug-n-drop
 var isDeleting = false; // flag of object deleting
 var isMoving = false; // flag of object moving
 
-var showTension = true; // field picture
+var showField = false; // field picture
+var showTension = true; // map tension on particles on colors
 var showDisplacements = false; // displacemens lines
 var showResultForces = false; // resulrint Forces-arrows
 var showFrame = false;
 var isFramed = true; // mass-electric constraints on frame boundary
 var isSimulating = true; // animation trigger
+
 
 var objects =  new Array();
 var obstacles =  new Array();
@@ -131,94 +133,29 @@ function setup() {
 
 function draw() {
 
-	background(240);  // clear canvas with color
-
+	background(240);
 	var realObjectsNumber = objects.length;
-	objects_all = objects.concat(obstacles);  // concatinate
-
-	// calculate accumulative displacements
+	objects_all = objects.concat(obstacles);
 	var delta = calculateDisplacements(objects_all);
 
-	// Draw tension field
-	if (showTension) {
-
-		strokeWeight(1.5);
-
-		if (isTensionFieldAdaptive) {
-			if (frameRate() < 30) {
-				if (adaptiveTensionFieldDirection > 0) {
-					adaptiveTensionFieldStep *= 1.05;
-					adaptiveTensionFieldDirection = 1;
-				}
-			} else if (frameRate() > 60) {
-				if (adaptiveTensionFieldDirection < 0) {
-					adaptiveTensionFieldStep *= 0.95;
-					adaptiveTensionFieldDirection = -1;
-				}
-			}
-		}
-
-	 	for (var x = 0; x < width; x += adaptiveTensionFieldStep) {
-	    	for (var y = 0; y < height; y += adaptiveTensionFieldStep) {
-	     		var _delta = [0, 0];
-	    		for (var k = 0; k < objects_all.length; k++) {
-			     	var _x = objects_all[k][0];
-			     	var _y = objects_all[k][1];
-			     	var squareMass = area(objects_all[k][2]);
-			     	var __delta = calculateDelta(x, y, _x, _y, squareMass);
-			     	_delta[0] += __delta[0]; 
-			     	_delta[1] += __delta[1];
-	    		}
-	    		var vec = createVector(_delta[0], _delta[1]);
-	    		var closeObject = getNearest(x, y);
-	    		var objIndex = closeObject[0];
-	    		var magnitude = 1;
-	    		if (objIndex > -1) {
-	    			var closeCharge = objects[objIndex][2];
-	    			magnitude = 1/closeCharge;
-	    		}
-	    		vec.mult(magnitude);
-	    		var vecLength = vec.mag();
-	    		var thinkness = map(vecLength, 0, 100, 30, 255);
-	    		stroke(0, thinkness);
-  				vec.normalize();
-	      		line(x, y, x + FIELD_SCALE * vec.x, y + FIELD_SCALE * vec.y);
-	      		
-	    	}
-		}
-	}
-
-
-	// Simulate and Draw objects
-	for (var i = 0; i < realObjectsNumber; i++) {
-
-		if (isSimulating) { 
-			objects[i][0] += correctShift(delta[i][0]); // simulate: add displacements to coords
-			objects[i][1] += correctShift(delta[i][1]);
-		}
-
-		// draw objects
-		fill(0, 30);
-		noStroke();
-		if (i == pickedObjectIndex) fill(255, 0, 0);
-		ellipse(objects[i][0], objects[i][1], objects[i][2], objects[i][2]);
-
-		if (showResultForces) {
-			var x1 = objects[i][0] + objects[i][2]/2;
-			var x2 = x1 + delta[i][0] * FORCE_SCALE;
-			var y1 = objects[i][1] + objects[i][2]/2;
-			var y2 = y1 + delta[i][1] * FORCE_SCALE;
-
-			stroke(255, 0, 0, 100);
-			fill(255, 0, 0, 100);
-			line(x1, y1, x2, y2);
-		}
-	}
-
+	simulateMotion(delta);
+	drawTensionField();
+	drawParticles(delta);
 	drawFrame();
 	drawCursor();
 	drawFPS();
+}
 
+
+function simulateMotion(delta) {
+	if (!isSimulating) { 
+		return;
+	}
+	var realObjectsNumber = objects.length;
+	for (var i = 0; i < realObjectsNumber; i++) {
+		objects[i][0] += correctShift(delta[i][0]); // simulate: add displacements to coords
+		objects[i][1] += correctShift(delta[i][1]);
+	}
 }
 
 function calculateDisplacements(objectsArray) {
@@ -250,6 +187,99 @@ function calculateDisplacements(objectsArray) {
 	}
 	return delta;
 }
+
+
+function drawParticles(delta) {	
+	var realObjectsNumber = objects.length;
+	var mappedColors = [];
+	if (showTension) {
+		var magnitudes = delta.map(function(x) {
+			var vec = createVector(x[0], x[1]);
+		 	return vec.mag();
+		});
+		for (var i = 0; i < realObjectsNumber; i++) {
+			var newVal = map(magnitudes[i], min(magnitudes), max(magnitudes), 0, 255);
+			mappedColors.push(newVal);	
+		}
+	}
+	for (var i = 0; i < realObjectsNumber; i++) {
+		fill(0);
+		if (showField) {
+			fill(0, 30);
+		}
+		if (showTension) {
+			//console.log(mappedColors[i]);
+			fill(mappedColors[i], 0, 0);
+		}
+		noStroke();
+		if (i == pickedObjectIndex) {
+			fill(255, 0, 0);
+		}
+		ellipse(objects[i][0], objects[i][1], objects[i][2], objects[i][2]);
+
+		if (showResultForces) {
+			var x1 = objects[i][0];
+			var x2 = x1 + delta[i][0] * FORCE_SCALE;
+			var y1 = objects[i][1];
+			var y2 = y1 + delta[i][1] * FORCE_SCALE;
+			stroke(255, 0, 0);
+			fill(255, 0, 0);
+			drawArrow(x1, y1, x2, y2, 0.5, 3, true);
+		}
+	}
+}
+
+
+function drawTensionField() {
+	
+	if (!showField) return;
+
+	strokeWeight(1.5);
+
+	if (isTensionFieldAdaptive) {
+		if (frameRate() < 30) {
+			if (adaptiveTensionFieldDirection > 0) {
+				adaptiveTensionFieldStep *= 1.05;
+				adaptiveTensionFieldDirection = 1;
+			}
+		} else if (frameRate() > 60) {
+			if (adaptiveTensionFieldDirection < 0) {
+				adaptiveTensionFieldStep *= 0.95;
+				adaptiveTensionFieldDirection = -1;
+			}
+		}
+	}
+
+ 	for (var x = 0; x < width; x += adaptiveTensionFieldStep) {
+    	for (var y = 0; y < height; y += adaptiveTensionFieldStep) {
+     		var _delta = [0, 0];
+    		for (var k = 0; k < objects_all.length; k++) {
+		     	var _x = objects_all[k][0];
+		     	var _y = objects_all[k][1];
+		     	var squareMass = area(objects_all[k][2]);
+		     	var __delta = calculateDelta(x, y, _x, _y, squareMass);
+		     	_delta[0] += __delta[0]; 
+		     	_delta[1] += __delta[1];
+    		}
+    		var vec = createVector(_delta[0], _delta[1]);
+    		var closeObject = getNearest(x, y);
+    		var objIndex = closeObject[0];
+    		var magnitude = 1;
+    		if (objIndex > -1) {
+    			var closeCharge = objects[objIndex][2];
+    			magnitude = 1/closeCharge;
+    		}
+    		vec.mult(magnitude);
+    		var vecLength = vec.mag();
+    		var thinkness = map(vecLength, 0, 100, 30, 255);
+    		stroke(0, thinkness);
+				vec.normalize();
+      		line(x, y, x + FIELD_SCALE * vec.x, y + FIELD_SCALE * vec.y);
+      		
+    	}
+	}
+}
+
 
 function drawFrame() {
 	if (showFrame) {
