@@ -30,8 +30,8 @@ var TENSION_FIELD_STEP = 15;
 
 // frame particles characteristics
 var cornerWeight = 0;  // weights in corners
-var borderStep = 30;   // distance between frame particles
-var borderWeight = 60; //w * h / ((w + h)/borderStep); // weights on frame
+var borderStep = 60;   // distance between frame particles
+var borderWeight = MIN_SIZE; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 601; // simulation window width
 var h = 306; // height
@@ -98,10 +98,10 @@ function setup() {
 
 
 	// initiate with objects
-	objects.push([GAP, GAP, 30]);
-	objects.push([GAP, height - GAP, 30]);
-	objects.push([width - GAP, height - GAP, 30]);
-	objects.push([width - GAP, GAP, 30]);
+	objects.push([GAP, GAP, MIN_SIZE]);
+	objects.push([GAP, height - GAP, MIN_SIZE]);
+	objects.push([width - GAP, height - GAP, MIN_SIZE]);
+	objects.push([width - GAP, GAP, MIN_SIZE]);
 
 
 	if (isFramed) {                    
