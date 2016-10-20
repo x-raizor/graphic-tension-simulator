@@ -30,7 +30,7 @@ var TENSION_FIELD_STEP = 15;
 
 // frame particles characteristics
 var cornerWeight = 0;  // weights in corners
-var borderStep = 60;   // distance between frame particles
+var borderStep = MIN_SIZE;   // distance between frame particles
 var borderWeight = MIN_SIZE; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 601; // simulation window width
