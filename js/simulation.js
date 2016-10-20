@@ -35,7 +35,7 @@ var borderWeight = MIN_SIZE; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 601; // simulation window width
 var h = 306; // height
-var frameAspectRatio = 5/2;
+var frameAspectRatio = 3/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
 var adaptiveTensionFieldStep = TENSION_FIELD_STEP;
