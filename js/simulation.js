@@ -160,7 +160,7 @@ function simulateMotion(delta) {
 
 function calculateDisplacements(objectsArray) {
 	// TODO: optimize. no need to calulate it when simulation is stopped
-	var delta = new Array() // float[realObjectsNumber][2]; // [[0, 0]] * real_objects;
+	var delta = new Array();
 	var realObjectsNumber = objects.length;
 	
 	stroke(0, 0, 255);
@@ -189,14 +189,39 @@ function calculateDisplacements(objectsArray) {
 }
 
 
+function calculateIntensity(x, y) {
+	/*
+	 * Electical intensity in point with coordinates x, y
+	 */
+	var _delta = [0, 0];
+	for (var k = 0; k < objects_all.length; k++) {
+     	var _x = objects_all[k][0];
+     	var _y = objects_all[k][1];
+     	var squareMass = area(objects_all[k][2]);
+     	var __delta = calculateDelta(x, y, _x, _y, squareMass);
+     	_delta[0] += __delta[0]; 
+     	_delta[1] += __delta[1];
+	}
+	return _delta;
+}
+
+
+
 function drawParticles(delta) {	
 	var realObjectsNumber = objects.length;
 	var mappedColors = [];
 	if (showTension) {
-		var magnitudes = delta.map(function(x) {
-			var vec = createVector(x[0], x[1]);
+		var magnitudes = objects.map(function(obj) {
+			var x = obj[0];
+			var y = obj[1];
+			var val = calculateIntensity(x, y);
+			var vec = createVector(val[0], val[1]);
+			vec.mult(1/obj[2]);
 		 	return vec.mag();
 		});
+		fill(0);
+  		noStroke();
+  		text('E: ' + max(magnitudes).toFixed(2), 80, height - 10);
 		for (var i = 0; i < realObjectsNumber; i++) {
 			var newVal = map(magnitudes[i], min(magnitudes), max(magnitudes), 0, 255);
 			mappedColors.push(newVal);	
@@ -208,12 +233,11 @@ function drawParticles(delta) {
 			fill(0, 30);
 		}
 		if (showTension) {
-			//console.log(mappedColors[i]);
 			fill(mappedColors[i], 0, 0);
 		}
 		noStroke();
 		if (i == pickedObjectIndex) {
-			fill(255, 0, 0);
+			fill(84, 153, 230);
 		}
 		ellipse(objects[i][0], objects[i][1], objects[i][2], objects[i][2]);
 
@@ -252,15 +276,7 @@ function drawTensionField() {
 
  	for (var x = 0; x < width; x += adaptiveTensionFieldStep) {
     	for (var y = 0; y < height; y += adaptiveTensionFieldStep) {
-     		var _delta = [0, 0];
-    		for (var k = 0; k < objects_all.length; k++) {
-		     	var _x = objects_all[k][0];
-		     	var _y = objects_all[k][1];
-		     	var squareMass = area(objects_all[k][2]);
-		     	var __delta = calculateDelta(x, y, _x, _y, squareMass);
-		     	_delta[0] += __delta[0]; 
-		     	_delta[1] += __delta[1];
-    		}
+     		var _delta = calculateIntensity(x, y);
     		var vec = createVector(_delta[0], _delta[1]);
     		var closeObject = getNearest(x, y);
     		var objIndex = closeObject[0];
@@ -275,7 +291,6 @@ function drawTensionField() {
     		stroke(0, thinkness);
 				vec.normalize();
       		line(x, y, x + FIELD_SCALE * vec.x, y + FIELD_SCALE * vec.y);
-      		
     	}
 	}
 }
