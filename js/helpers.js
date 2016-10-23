@@ -25,17 +25,6 @@ function sign(pickedObjectIndex) {
 
   if (newDist > oldDist) return 1;
   return -1;
-  
-  // if (abs(mouseX - pmouseX) > abs(mouseY - pmouseY)) {
-  //   x = mouseX - pmouseX;
-  // } else {
-  //   x = mouseY - pmouseY;
-  // }
-  // if (x > 0)
-  //   return 1;
-  // else if (x < 0) 
-  //   return -1;
-  // return 0;
 }
 
 
@@ -89,14 +78,6 @@ function calculateDelta(x1, y1, x2, y2, s2) {
 function correctShift(displacement) {
   //if (displacement > height / 5) return displacement / CAPACITANCE / 1.0;
   return displacement;
-}
-
-
-function drawFPS() {
-  var fps = frameRate();
-  fill(0);
-  stroke(255);
-  text('FPS: ' + fps.toFixed(0), 10, height - 10);
 }
 
 

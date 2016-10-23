@@ -33,8 +33,8 @@ var cornerWeight = 0;  // weights in corners
 var borderStep = MIN_SIZE;   // distance between frame particles
 var borderWeight = MIN_SIZE; //w * h / ((w + h)/borderStep); // weights on frame
 
-var w = 601; // simulation window width
-var h = 306; // height
+var w = 600; // simulation window width
+var h = 300; // height
 var frameAspectRatio = 3/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
@@ -65,7 +65,9 @@ function setup() {
 
 	//frameRate(60);
 	w = $('#sketch-holder').width();
+	w = w - w % MIN_SIZE;
 	h = w / frameAspectRatio;
+	h = h - h % MIN_SIZE;
 	var canvas = createCanvas(w, h);
 
 	// setup an interaction inside simulator canvas
@@ -144,6 +146,7 @@ function draw() {
 	drawFrame();
 	drawCursor();
 	drawFPS();
+	drawInstruction();
 }
 
 
@@ -219,8 +222,9 @@ function drawParticles(delta) {
 			vec.mult(1/obj[2]);
 		 	return vec.mag();
 		});
-		fill(0);
-  		noStroke();
+		fill(0, 80);
+		noStroke();
+		textAlign(LEFT);
   		text('E: ' + max(magnitudes).toFixed(2), 80, height - 10);
 		for (var i = 0; i < realObjectsNumber; i++) {
 			var newVal = map(magnitudes[i], min(magnitudes), max(magnitudes), 0, 255);
@@ -304,4 +308,17 @@ function drawFrame() {
 	    ellipse(item[0], item[1], size, size);
 	  }
 	}
+}
+
+function drawFPS() {
+  var fps = frameRate();
+  fill(0, 80);
+  textAlign(LEFT);
+  text('FPS: ' + fps.toFixed(0), 10, height - 10);
+}
+
+function drawInstruction() {
+	fill(0, 80);
+	textAlign(RIGHT);
+	text('Zoom: shift + drag, Delete: alt + click', width - 10, height - 10);
 }

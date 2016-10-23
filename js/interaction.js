@@ -14,6 +14,11 @@
 		window[state] = !window[state];  //isSimulating = !isSimulating;
 		renderState(this);
 	});
+
+	$('#modeSwitch div').click(function() {
+		$('#modeSwitch div').removeClass("selected");
+		$(this).addClass("selected");
+	});
 });
 
 
