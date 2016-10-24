@@ -38,6 +38,7 @@ var h = 300; // height
 var frameAspectRatio = 3/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
+var maxIntensityMemory = 0.5;
 var adaptiveTensionFieldStep = TENSION_FIELD_STEP;
 var adaptiveTensionFieldDirection = 1;
 var isTensionFieldAdaptive = false; 
@@ -222,12 +223,15 @@ function drawParticles(delta) {
 			vec.mult(1/obj[2]);
 		 	return vec.mag();
 		});
+		if (max(magnitudes) > maxIntensityMemory) {
+		//	maxIntensityMemory = max(magnitudes);
+		}
 		fill(0, 80);
 		noStroke();
 		textAlign(LEFT);
-  		text('E: ' + max(magnitudes).toFixed(2), 80, height - 10);
+  		text('E: ' + maxIntensityMemory.toFixed(2), 80, height - 10);
 		for (var i = 0; i < realObjectsNumber; i++) {
-			var newVal = map(magnitudes[i], min(magnitudes), max(magnitudes), 0, 255);
+			var newVal = map(magnitudes[i], 0, maxIntensityMemory, 0, 255);
 			mappedColors.push(newVal);	
 		}
 	}
