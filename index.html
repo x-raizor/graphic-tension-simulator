@@ -27,17 +27,19 @@
 				<script src="js/simulation.js" type="text/javascript"></script>
 			</div>
 			<div id="controls">
-				<div id="modeSwitch">
-					<div class="selected">Статика</div>
-					<div>Динамика</div>
+				<div id="modeSwitch" data-state="isSimulating">
+					<div><span>Статика</span></div>
+					<div><span>Динамика</span></div>
 				</div>
-				<label><input data-state="isSimulating" type="checkbox" class="ios-switch green tinyswitch BtnControls" checked /><div><div></div></div></label>
-				<button class="BtnControls" data-state="showTension">Напряженность</button>
-				<button class="BtnControls" data-state="showField">Магнитное поле</button>
-				<button class="BtnControls" data-state="showDisplacements">Cмещения</button>
-				<button class="BtnControls" data-state="showResultForces">Cилы</button>
-				<button class="BtnControls" data-state="showFrame">Рамка</button>
-				<button class="btn" id="btnClear">Очистить макет</button>
+				<div id="checkers">
+					&nbsp;&nbsp;
+					<button class="BtnControls" data-state="showTension">Напряженность частиц</button>
+					<button class="BtnControls" data-state="showDisplacements">Cмещения</button>
+					<button class="BtnControls" data-state="showField">Магнитное поле</button>
+					<!-- <button class="BtnControls" data-state="showResultForces">Cилы</button> -->
+					<button class="BtnControls" data-state="showFrame">Рамка</button>
+					<button class="btn" id="btnClear">Очистить макет</button>
+				</div>
 
 			</div>
 		</section>

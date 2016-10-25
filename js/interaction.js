@@ -15,12 +15,21 @@
 		renderState(this);
 	});
 
+	renderSimulationTrigger();
+	
 	$('#modeSwitch div').click(function() {
 		$('#modeSwitch div').removeClass("selected");
-		$(this).addClass("selected");
+		$(this).addClass('selected');
+		var isStatic = $('#modeSwitch div:nth-child(1)').hasClass('selected');
+		isSimulating = !isStatic;
 	});
 });
 
+function renderSimulationTrigger() {
+	$('#modeSwitch div').removeClass("selected");
+	var index = 2 - !isSimulating;
+	$('#modeSwitch div:nth-child(' + index + ')').addClass('selected');
+}
 
 function renderState(obj) {
 	var state = obj.getAttribute('data-state');
@@ -82,7 +91,8 @@ function clearScene() {
 function keyPressed() {
 
 	if (key == ' ') {
-		$('input.BtnControls').trigger('click');
+		isSimulating = !isSimulating;
+		renderSimulationTrigger();
 	} else if (keyCode == 'c') {
 		clearScene();	
 	}

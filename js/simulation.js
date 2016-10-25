@@ -38,7 +38,7 @@ var h = 300; // height
 var frameAspectRatio = 3/2;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
-var maxIntensityMemory = 0.5;
+var maxIntensityMemory = 0.2;
 var adaptiveTensionFieldStep = TENSION_FIELD_STEP;
 var adaptiveTensionFieldDirection = 1;
 var isTensionFieldAdaptive = false; 
@@ -223,9 +223,6 @@ function drawParticles(delta) {
 			vec.mult(1/obj[2]);
 		 	return vec.mag();
 		});
-		if (max(magnitudes) > maxIntensityMemory) {
-		//	maxIntensityMemory = max(magnitudes);
-		}
 		fill(0, 80);
 		noStroke();
 		textAlign(LEFT);
