@@ -180,12 +180,10 @@ blockquote {
 
 }
 
-// custom styles
 
 #page_wrap {
 	max-width: 960px;
 	min-width: 320px;
-	width: 960px;
 	margin: 0 auto;
 }
 
