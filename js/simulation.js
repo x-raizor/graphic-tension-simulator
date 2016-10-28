@@ -26,7 +26,7 @@ var CAPACITANCE = 15; // electrical charge capacity, 'electro viscocity'
 var DRAG_AMOUNT = 1; //  scale factor of dragging for mass scale 
 var FORCE_SCALE = 130; // forces lines multiplicator
 var FIELD_SCALE = 20; // tension field lines multiplicator
-var TENSION_FIELD_STEP = 15;
+var TENSION_FIELD_STEP = 5;
 
 // frame particles characteristics
 var cornerWeight = 0;  // weights in corners
@@ -35,7 +35,7 @@ var borderWeight = MIN_SIZE; //w * h / ((w + h)/borderStep); // weights on frame
 
 var w = 600; // simulation window width
 var h = 300; // height
-var frameAspectRatio = 3/2;
+var frameAspectRatio = 16/9;
 
 var pickedObjectIndex = -1; // buffer for clicked object index
 var maxIntensityMemory = 0.2;
@@ -46,8 +46,8 @@ var isScaling = false; // flag of object scaling while drug-n-drop
 var isDeleting = false; // flag of object deleting
 var isMoving = false; // flag of object moving
 
-var showField = false; // field picture
 var showTension = true; // map tension on particles on colors
+var showField = false; // field picture
 var showDisplacements = false; // displacemens lines
 var showResultForces = false; // resulrint Forces-arrows
 var showFrame = false;
@@ -136,7 +136,7 @@ function setup() {
 
 function draw() {
 
-	background(240);
+	background(225);
 	var realObjectsNumber = objects.length;
 	objects_all = objects.concat(obstacles);
 	var delta = calculateDisplacements(objects_all);
@@ -223,10 +223,6 @@ function drawParticles(delta) {
 			vec.mult(1/obj[2]);
 		 	return vec.mag();
 		});
-		fill(0, 80);
-		noStroke();
-		textAlign(LEFT);
-  		text('E: ' + maxIntensityMemory.toFixed(2), 80, height - 10);
 		for (var i = 0; i < realObjectsNumber; i++) {
 			var newVal = map(magnitudes[i], 0, maxIntensityMemory, 0, 255);
 			mappedColors.push(newVal);	
@@ -234,13 +230,13 @@ function drawParticles(delta) {
 	}
 	for (var i = 0; i < realObjectsNumber; i++) {
 		fill(0);
+		noStroke();
 		if (showField) {
-			fill(0, 30);
+			fill(0);
 		}
 		if (showTension) {
 			fill(mappedColors[i], 0, 0);
 		}
-		noStroke();
 		if (i == pickedObjectIndex) {
 			fill(84, 153, 230);
 		}
@@ -263,7 +259,7 @@ function drawTensionField() {
 	
 	if (!showField) return;
 
-	strokeWeight(1.5);
+	strokeWeight(0.5);
 
 	if (isTensionFieldAdaptive) {
 		if (frameRate() < 30) {
@@ -283,23 +279,15 @@ function drawTensionField() {
     	for (var y = 0; y < height; y += adaptiveTensionFieldStep) {
      		var _delta = calculateIntensity(x, y);
     		var vec = createVector(_delta[0], _delta[1]);
-    		var closeObject = getNearest(x, y);
-    		var objIndex = closeObject[0];
-    		var magnitude = 1;
-    		if (objIndex > -1) {
-    			var closeCharge = objects[objIndex][2];
-    			magnitude = 1/closeCharge;
-    		}
-    		vec.mult(magnitude);
     		var vecLength = vec.mag();
-    		var thinkness = map(vecLength, 0, 100, 30, 255);
+    		var thinkness = map(vecLength, 0, 30, 0, 255);
     		stroke(0, thinkness);
-				vec.normalize();
+    		vec.normalize();
       		line(x, y, x + FIELD_SCALE * vec.x, y + FIELD_SCALE * vec.y);
+
     	}
 	}
 }
-
 
 function drawFrame() {
 	if (showFrame) {
@@ -321,5 +309,5 @@ function drawFPS() {
 function drawInstruction() {
 	fill(0, 80);
 	textAlign(RIGHT);
-	text('Zoom: shift + drag, Delete: alt + click', width - 10, height - 10);
+	text('Масштаб — потащить с шифтом, Удалить — альт-клик', width - 10, height - 10);
 }

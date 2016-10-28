@@ -7,6 +7,49 @@
 *
 * Fonts names and size scale
 */
+/* font-family: "RalewayRegular"; */
+@font-face {
+    font-family: "RalewayRegular";
+    src: url("../fonts/RalewayRegular/RalewayRegular.eot");
+    src: url("../fonts/RalewayRegular/RalewayRegular.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RalewayRegular/RalewayRegular.woff") format("woff"),
+    url("../fonts/RalewayRegular/RalewayRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+/* font-family: "RalewayExtraLight"; */
+@font-face {
+    font-family: "RalewayExtraLight";
+    src: url("../fonts/RalewayExtraLight/RalewayExtraLight.eot");
+    src: url("../fonts/RalewayExtraLight/RalewayExtraLight.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RalewayExtraLight/RalewayExtraLight.woff") format("woff"),
+    url("../fonts/RalewayExtraLight/RalewayExtraLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+/* font-family: "RalewayBold"; */
+@font-face {
+    font-family: "RalewayBold";
+    src: url("../fonts/RalewayBold/RalewayBold.eot");
+    src: url("../fonts/RalewayBold/RalewayBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RalewayBold/RalewayBold.woff") format("woff"),
+    url("../fonts/RalewayBold/RalewayBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+html {
+	font-size: 18px;
+}
+body {
+	font-family: 'RalewayRegular', sans-serif;
+	line-height: 1.5;
+	color: rgba(0, 0, 0, 0.8);
+	padding: 0 5.55555556%;
+	text-align: center;
+	background-color: #F1F1F1;
+}
+
 h1,
 h2,
 h3,
@@ -93,15 +136,6 @@ p {
 * Main styles
 *
 */
-html {
-	font-size: 18px;
-}
-body {
-	font-family: 'Raleway', sans-serif;
-	line-height: 1.5;
-	color: rgba(0, 0, 0, 0.8);
-	padding: 0 5.55555556%;
-}
 a {
 	text-decoration: none;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
@@ -133,6 +167,7 @@ article,
 section {
 	margin: 2em 0;
 	clear: both;
+	text-align: left;
 }
 footer {
 	border-top: 1px solid rgba(0,0,0, 0.2);
@@ -142,7 +177,7 @@ footer {
 
 blockquote {
 	margin-top: -1em;
-	font-style: italic;
+
 }
 
 // custom styles
@@ -150,6 +185,7 @@ blockquote {
 #page_wrap {
 	max-width: 960px;
 	min-width: 320px;
+	width: 960px;
 	margin: 0 auto;
 }
 
@@ -160,7 +196,7 @@ blockquote {
 #controls button {
 	padding: 0;
 	font-size: 0.65em;
-	background-color: #ffffff;
+	background-color: inherit;
 	border: none;
 	outline: none;
 	margin: 0 0.2em 0;
@@ -218,9 +254,9 @@ section {
 }
 
 h1 {
-	font-weight: 500;
-	font-size: 2.827em;
-	line-height: 1em;
+	font-family: 'RalewayExtraLight', 'Open Sans Light', sans-serif;
+	font-size: 62px;
+	line-height: 60px;
 }
 
 a:hover {

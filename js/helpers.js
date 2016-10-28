@@ -137,3 +137,10 @@ function drawArrow(x0, y0, x1, y1, beginHeadSize, endHeadSize, filled) {
   }
 }
 
+
+function flatten(array) {
+  return array.reduce(function(memo, el) {
+    var items = Array.isArray(el) ? flatten(el) : [el];
+    return memo.concat(items);
+  }, []);
+}
