@@ -119,7 +119,7 @@ function draw() {
 	drawParticles(delta);
 	drawFrame();
 	drawCursor();
-	drawFPS();
+	//drawFPS();
 	drawInstruction();
 }
 
@@ -342,5 +342,5 @@ function drawFPS() {
 function drawInstruction() {
 	fill(0, 80);
 	textAlign(RIGHT);
-	text('Масштаб — потащить с шифтом, Удалить — альт-клик', width - 10, height - 10);
+	text('Масштабировать — потащить с шифтом, удалить — альт-клик', width - 10, height - 10);
 }
