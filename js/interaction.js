@@ -2,6 +2,9 @@
  * INTERACTIONS
  */
 
+/*
+ * JQuery bindings
+ */
  $(function(){ // onLoad
  	$('.BtnControls').each( function(i, el) {
 		renderState(el);
@@ -22,6 +25,7 @@
 		$(this).addClass('selected');
 		var isStatic = $('#modeSwitch div:nth-child(1)').hasClass('selected');
 		isSimulating = !isStatic;
+		wasAutoSwitched = false;
 	});
 });
 
@@ -39,6 +43,7 @@ function renderState(obj) {
 		$(obj).removeClass("on");
 	}
 }
+
 
 function drawCursor() {
  	fill(0);
@@ -92,6 +97,7 @@ function keyPressed() {
 
 	if (key == ' ') {
 		isSimulating = !isSimulating;
+		wasAutoSwitched = false;
 		renderSimulationTrigger();
 	} else if (keyCode == 'c') {
 		clearScene();	

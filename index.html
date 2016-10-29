@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Симулятор графического напряжения Шапиро-Штанга · Исследование графического напряжения на основе модели электромагнитного поля</title>
 	<script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
+	<script src="js/jquery.visible.min.js" type="text/javascript"></script>
     <script src="js/p5.min.js" type="text/javascript"></script>
     <script src="js/helpers.js" type="text/javascript"></script>
     <script src="js/interaction.js" type="text/javascript"></script>
@@ -19,11 +20,11 @@
 	<div id="page_wrap">
 		<header>
 			<span>Андрей Шапиро, Игорь Штанг</span>
-			<h1>Исследование графического напряжения на основе модели электромагнитного поля</h1>
+			<h1>Исследование гра&shy;фи&shy;чес&shy;кого напря&shy;же&shy;ния на&nbsp;ос&shy;нове модели элек&shy;тро&shy;маг&shy;нит&shy;но&shy;го&nbsp;по&shy;ля</h1>
 		</header>
 
 		<section id="article">
-			<p>Эта статья&nbsp;&mdash; попытка объяснить композиционные отношения с&nbsp;помощью физической аналогии. Она не&nbsp;претендует на&nbsp;полноту и&nbsp;объективность, мы&nbsp;делимся своими находками.</p>
+			<p class="lead">Эта статья&nbsp;&mdash; попытка объяснить композиционные отношения с&nbsp;помощью физической аналогии. Она не&nbsp;претендует на&nbsp;полноту и&nbsp;объективность, мы&nbsp;делимся своими находками.</p>
 
 			<h2>Как мы&nbsp;к&nbsp;этому пришли</h2>
 
@@ -42,12 +43,13 @@
 
 			<p>На&nbsp;основе рассуждений Арнхейм строит так называемый &laquo;структурный план&raquo; и&nbsp;изображает на&nbsp;нем силовые точки и&nbsp;линии формата:</p>
 
-			<p><img style="margin-left: 1.5em;" src="i/arnheim.svg" alt=""></p>
+			<p><img style="margin-left: 1.5em;" src="i/arnheim.svg" alt="Структурный план квадрата по Арнхейму" title="Структурный план квадрата по Арнхейму" style="max-width: 280px; width: 100%;"></p>
 
 			<blockquote>В&nbsp;центре все силы находятся в&nbsp;состоянии равновесия, и, следовательно, центральное расположение способствует наиболее спокойному состоянию. Другое сравнительно спокойное состояние можно найти, например перемещая диск по&nbsp;диагонали. По-видимому, точка равновесия лежит где-то вблизи угла квадрата, а&nbsp;не&nbsp;вблизи его центра. Это означает, что, несмотря на&nbsp;то, что центральная точка сильнее угловой, данное преимущество компенсируется большим расстоянием наподобие магнитов разной силы.</blockquote>
-			
+
 			<p>К&nbsp;сожалению, в&nbsp;найденных источниках сравнение композиционных сил с&nbsp;магнитными не&nbsp;выходит за&nbsp;рамки ощущений и&nbsp;остается всего лишь догадкой или красивой метафорой. Мы&nbsp;решили проверить эту догадку на&nbsp;практике и&nbsp;создали симулятор, который воспроизводит действие магнитного поля на&nbsp;плоскости листа.</p>
 
+			<h2>Симулятор графического напряжения</h2>
 			<div id="simulator">			
 				<div id="sketch-holder">
 					<script src="js/simulation.js" type="text/javascript"></script>
@@ -59,16 +61,16 @@
 					</div>
 					<div id="checkers">
 						&nbsp;&nbsp;
-						<button class="BtnControls" data-state="showTension">Напряженность</button>
-						<button class="BtnControls" data-state="showField">Магнитное поле, ресурсоёмко</button>
-						<button class="BtnControls" data-state="showFrame">Рамка</button>
-						<button class="btn" id="btnClear">Очистить макет</button>
+						<button class="BtnControls" data-state="showTension" title="Напряженность электромагнитного поля. Чем краснее объект, тем он напряжённей">Напряженность</button>
+						<button class="BtnControls" data-state="showField" title="Магнитное поле, (ресурсоёмко)">Поле</button>
+						<button class="BtnControls" data-state="showFrame" title="Показывает элементы, создающие магнитную рамку-преграду">Рамка</button>
+						<button class="btn" id="btnClear">Очистить</button>
 					</div>
 
 				</div>
 			</div>
 
-						<h2>Как работает симулятор</h2>
+			<h2>Как работает симулятор</h2>
 			<p>В&nbsp;основе симулятора&nbsp;&mdash; закон электромагнитного взаимодействия Кулона. В&nbsp;применении к&nbsp;композиции его можно сформулировать так:
 			<cite>Элементы на&nbsp;плоскости отталкиваются друг от&nbsp;друга с&nbsp;силой, пропорциональной&nbsp;их (визуальной) массе и&nbsp;обратно пропорциональной квадрату расстояния между ними.</cite>
 			</p>
@@ -97,10 +99,20 @@
 			<p>Спасибо за&nbsp;внимание. Будем рады ответить на&nbsp;ваши вопросы и&nbsp;предложения.</p>
 		</section>
 
-	
+		<section id="reading">
+			<h2>Материалы для дальнейшего изучения</h2>
+			<ol>
+				<li>Фаворский В. А. <a href="http://publ.lib.ru/ARCHIVES/F/FAVORSKIY_Vladimir_Andreevich/_Favorskiy_V.A..html#002">Об искусстве, о книге, о гравюре.</a> М.: Книга, 1986. с. 89</li>
+				<li>Рудольф Арнхейм, «<a href="http://www.ozon.ru/context/detail/id/3370894/?partner=shapiro">Искусство и визуальное восприятие</a>, М.: Архитектура-С, 2012, с. 25».</li>
+				<li>Tony Pritchard, Visual Language and Grammar: <a href="https://www.youtube.com/watch?v=IX5-H8R14OI&feature=youtu.be&t=1m4s">Dots and Lines</a></li>
+				<li>Видео с <a href="https://www.youtube.com/watch?v=NDM78oscuaQ">первым прототипом симулятора.</a></li>
+				<li><a href="https://www.youtube.com/watch?v=wRQkW90fLEg">Теория графического напряжения</a>, доклад Игоря Штанга.</li>
+				<li><a href="http://boltkey.cz/multiclick_analysis/">Multiclick analysis</a> — исследование кликов пользователей внутри квадрата.</li>
+			</ol>
+		</section>
 
 		<footer>
-			<p><a href="https://www.facebook.com/xraizor">Андрей Шапиро</a> и Игорь Штанг, 2016</p>
+			<p><a href="https://vk.com/ashapiro">Андрей Шапиро</a> и <a href="https://vk.com/igorshtang">Игорь Штанг</a>, 2016</p>
 		</footer>
 	</div>
 </body>

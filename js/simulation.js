@@ -52,8 +52,8 @@ var showDisplacements = false; // displacemens lines
 var showResultForces = false; // resulrint Forces-arrows
 var showFrame = false;
 var isFramed = true; // mass-electric constraints on frame boundary
-var isSimulating = true; // animation trigger
-
+var isSimulating = false; // animation trigger
+var wasAutoSwitched = true;
 
 var objects =  new Array();
 var obstacles =  new Array();
@@ -64,12 +64,8 @@ var delta = new Array();
 
 function setup() {
 
-	//frameRate(60);
-	w = $('#sketch-holder').width();
-	w = w - w % MIN_SIZE;
-	h = w / frameAspectRatio;
-	h = h - h % MIN_SIZE;
-	var canvas = createCanvas(w, h);
+	var canvasSize = getCanvasSize();
+	var canvas = createCanvas(canvasSize[0], canvasSize[1]);
 
 	// setup an interaction inside simulator canvas
 	canvas.mousePressed(function() {
@@ -101,13 +97,38 @@ function setup() {
 		return false; // prevent default
 	});
 
+	populateInitially()
 
+	// Move the canvas so it's inside our <div id="sketch-holder">.
+	canvas.parent('sketch-holder');
+
+}
+
+
+function draw() {
+
+	background(225);
+	controlAnimation();
+
+	var realObjectsNumber = objects.length;
+	objects_all = objects.concat(obstacles);
+	var delta = calculateDisplacements(objects_all);
+
+	simulateMotion(delta);
+	drawTensionField();
+	drawParticles(delta);
+	drawFrame();
+	drawCursor();
+	drawFPS();
+	drawInstruction();
+}
+
+function populateInitially() {
 	// initiate with objects
 	objects.push([GAP, GAP, MIN_SIZE]);
 	objects.push([GAP, height - GAP, MIN_SIZE]);
 	objects.push([width - GAP, height - GAP, MIN_SIZE]);
 	objects.push([width - GAP, GAP, MIN_SIZE]);
-
 
 	if (isFramed) {                    
 		// horizontal frame part
@@ -128,26 +149,36 @@ function setup() {
 		obstacles.push([width - cornerWeight, 0, cornerWeight]);
 		obstacles.push([0, height - cornerWeight, cornerWeight]);
 	}
-	// Move the canvas so it's inside our <div id="sketch-holder">.
-	canvas.parent('sketch-holder');
-
 }
 
 
-function draw() {
+function getCanvasSize() {
+	w = $('#sketch-holder').width();
+	w = w - w % MIN_SIZE;
+	h = w / frameAspectRatio;
+	h = h - h % MIN_SIZE;
+	return [w, h];
+}
 
-	background(225);
-	var realObjectsNumber = objects.length;
-	objects_all = objects.concat(obstacles);
-	var delta = calculateDisplacements(objects_all);
 
-	simulateMotion(delta);
-	drawTensionField();
-	drawParticles(delta);
-	drawFrame();
-	drawCursor();
-	drawFPS();
-	drawInstruction();
+function windowResized() {
+	var canvasSize = getCanvasSize();
+	resizeCanvas(canvasSize[0], canvasSize[1]);
+	objects = [];
+	obstacles = [];
+	populateInitially();
+}
+
+
+function controlAnimation() {
+	if ($('#simulator').visible(true)) {
+		if (isSimulating || !wasAutoSwitched) return;
+		isSimulating = true;
+	} else {
+		wasAutoSwitched = true;
+		isSimulating = false;
+	}
+	renderSimulationTrigger();
 }
 
 
@@ -161,6 +192,7 @@ function simulateMotion(delta) {
 		objects[i][1] += correctShift(delta[i][1]);
 	}
 }
+
 
 function calculateDisplacements(objectsArray) {
 	// TODO: optimize. no need to calulate it when simulation is stopped
@@ -284,18 +316,19 @@ function drawTensionField() {
     		stroke(0, thinkness);
     		vec.normalize();
       		line(x, y, x + FIELD_SCALE * vec.x, y + FIELD_SCALE * vec.y);
-
     	}
 	}
 }
 
 function drawFrame() {
 	if (showFrame) {
-	  for (item of obstacles) {
-	    var halfSize = item[2]/2;
-	    var size = item[2];
-	    ellipse(item[0], item[1], size, size);
-	  }
+		fill(0);
+		noStroke();
+		for (item of obstacles) {
+		    var halfSize = item[2]/2;
+		    var size = item[2];
+		    ellipse(item[0], item[1], size, size);
+		}
 	}
 }
 
