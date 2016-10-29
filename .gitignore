@@ -1,10 +1,10 @@
 
 .DS_Store
 
-*.eot
+#*.eot
 
-*.ttf
+#*.ttf
 
-*.woff
+#*.woff
 
-*.woff2
+#*.woff2
