@@ -221,7 +221,11 @@ hr {
 
 img.example {
 	width: 100%;
-	max-width: 459px;
+}
+
+img.inline {
+	display: inline;
+	vertical-align: middle;
 }
 
 video {
