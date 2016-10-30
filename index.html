@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
 	<title>Симулятор графического напряжения Шапиро-Штанга · Исследование графического напряжения на основе модели электромагнитного поля</title>
 	<script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
 	<script src="js/jquery.visible.min.js" type="text/javascript"></script>
@@ -81,7 +82,7 @@
 			<p>Намагниченная рамка определяет силовое поле пустого листа, и&nbsp;это поле неоднородно. Чтобы его визуализировать, мы&nbsp;засеяли площадь формата чувствительными &laquo;волосками&raquo;. Они, как и&nbsp;металлические опилки вокруг настоящего магнита, показывают направление и&nbsp;интенсивность магнитных волн. Чем сильнее на&nbsp;волосок действует поле, тем темнее он&nbsp;становится. Если поставить галочку <img class="inline" src="i/controls-field.png" style="max-width: 51px;" alt="Переключатель режима симулятора" />, будут видны спокойные, светлые, и&nbsp;напряженные, темные, участки:
 			</p>
 
-			<img class="example" src="i/magnetic-field.png" alt="" /><br /><br />	
+			<img class="example" src="i/magnetic-field.png" alt="" /><br /><br />
 
 			<p>У&nbsp;симулятора два режима: статический и&nbsp;динамический <img class="inline" src="i/controls-switch.png" style="max-width: 148px;" alt="Переключатель режима симулятора" /> В&nbsp;статическом все объекты неподвижны, как на&nbsp;листе бумаги,&nbsp;&mdash; вне зависимости от&nbsp;того, какие силы на&nbsp;них действуют. Динамический режим приводит объекты в&nbsp;движение и&nbsp;позволяет им&nbsp;занять наиболее &laquo;комфортное&raquo; положение.</p>
 
@@ -89,30 +90,30 @@
 
 			<p>Если поместить шарик у&nbsp;края формата, рамка вытолкнет его к&nbsp;центру. Центральное положение&nbsp;&mdash; самое спокойное и&nbsp;сбалансированное: </p>
 		
-			<video autoplay loop title="Шарик летит от края к центру">
+			<video controls loop title="Шарик летит от края к центру">
 				<source src="i/example-1.mp4" type="video/mp4">
 				Your browser does not support the video tag.
-			</video>
+			</video><br /><br />
 			
 			<p>Объекты взаимодействуют не&nbsp;только с&nbsp;рамкой, но&nbsp;и&nbsp;друг с&nbsp;другом. Два шарика в&nbsp;центре уравновешены относительно формата, но&nbsp;напряжены между собой. Если включить динамический режим, они отскочат друг от&nbsp;друга на&nbsp;безопасное расстояние:</p>
 			
-			<video autoplay loop title="Два шарика рядом в центре">
+			<video controls loop title="Два шарика рядом в центре">
 				<source src="i/example-2.mp4" type="video/mp4">
 				Your browser does not support the video tag.
-			</video>
+			</video><br /><br />
 			
-			<p>Чем массивней объект, тем больше его личное пространство и&nbsp;тем сильнее он&nbsp;будет его &laquo;охранять&raquo;:</p>
+			<p>Чем массивней объект, тем больше его личное пространство и&nbsp;тем сильнее он&nbsp;будет его&nbsp;&laquo;охранять&raquo;:</p>
 
-			<video autoplay loop title="Большой шарик отталкивает маленький">
+			<video controls loop title="Большой шарик отталкивает маленький">
 				<source src="i/example-3.mp4" type="video/mp4">
 				Your browser does not support the video tag.
-			</video>
+			</video><br /><br />
 
-			<p>Беспорядочно разбросанные шарики выстроятся настолько равномерно, насколько это возможно:</p>
-			<video autoplay loop title="Беспорядочно разбросанные шарики">
+			<p>Беспорядочно разбросанные шарики выстроятся настолько равномерно, насколько это&nbsp;возможно:</p>
+			<video controls loop title="Беспорядочно разбросанные шарики">
 				<source src="i/example-4.mp4" type="video/mp4">
 				Your browser does not support the video tag.
-			</video>
+			</video><br /><br />
 			
 			<p>Как видно из&nbsp;примеров, симулятор переводит объекты из&nbsp;напряженного состояния в&nbsp;спокойное, то&nbsp;есть уравновешивает композицию.</p>
 
