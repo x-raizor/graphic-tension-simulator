@@ -120,7 +120,7 @@ function draw() {
 	drawFrame();
 	drawCursor();
 	//drawFPS();
-	//drawInstruction();
+	drawInstruction();
 }
 
 function populateInitially() {
