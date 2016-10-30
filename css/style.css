@@ -219,6 +219,15 @@ hr {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+img.example {
+	width: 100%;
+	max-width: 459px;
+}
+
+video {
+	width: 100%;
+}
+
 #page_wrap {
 	max-width: 960px;
 	min-width: 320px;
