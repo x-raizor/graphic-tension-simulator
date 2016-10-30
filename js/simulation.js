@@ -154,7 +154,11 @@ function populateInitially() {
 
 function getCanvasSize() {
 	w = $('#sketch-holder').width();
-	w = w - w % MIN_SIZE;
+
+	var shift = w % MIN_SIZE;	
+	$('#controls').css('padding-right', Math.round(shift) + 'px');
+
+	w = w - shift;
 	h = w / frameAspectRatio;
 	h = h - h % MIN_SIZE;
 	return [w, h];
